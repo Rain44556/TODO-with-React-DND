@@ -5,6 +5,10 @@ import './index.css'
 import HomeLayout from './components/layout/HomeLayout.jsx'
 import Home from './components/Home/Home.jsx'
 import { ToastContainer } from 'react-toastify'
+import AuthProvider from './provider/AuthProvider.jsx'
+import SignInWithGoogle from './provider/authentication/SignInWithGoogle.jsx'
+import AddTask from './components/AddTask.jsx'
+import PrivateRoute from './privateRoute/PrivateRoute.jsx'
 
 const router = createBrowserRouter([
 {
@@ -14,6 +18,14 @@ const router = createBrowserRouter([
     {
       path: "/",
       element: <Home></Home>
+    },
+    {
+      path: "/googleLogin",
+      element: <SignInWithGoogle></SignInWithGoogle>
+    },
+    {
+      path: "/addTask",
+      element: <PrivateRoute><AddTask></AddTask></PrivateRoute>
     }
   ]
 }
@@ -21,7 +33,9 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-  <RouterProvider router={router}></RouterProvider>
-  <ToastContainer />
+ <AuthProvider>
+ <RouterProvider router={router}></RouterProvider>
+ <ToastContainer />
+ </AuthProvider>
   </StrictMode>,
 )
