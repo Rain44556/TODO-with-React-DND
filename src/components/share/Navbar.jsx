@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../provider/AuthProvider';
 import { Link, NavLink } from 'react-router-dom';
+import SignInWithGoogle from '../../provider/authentication/SignInWithGoogle';
 
 const Navbar = () => {
     const {user, logOutUser} = useContext(AuthContext);
@@ -34,7 +35,7 @@ const Navbar = () => {
                 <button onClick={logOutUser} className="btn">Logout</button>
               </ul>
             ) :
-            <Link to="/googleLogin" className="btn">Google sign-in</Link>
+            <SignInWithGoogle></SignInWithGoogle>
             }
           
         </div>

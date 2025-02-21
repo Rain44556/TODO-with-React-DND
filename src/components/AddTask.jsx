@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import CategoryLists from "./CategoryLists";
 import Select from 'react-select'
+import { toast } from "react-toastify";
+import { AuthContext } from "../provider/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 
 const AddTask = () => {
   const [task, setTask] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const {user} = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const categories = [
     { value: "TO-DO", label: "TO-DO" },
@@ -21,6 +26,25 @@ const AddTask = () => {
     const description = addTaskForm.description.value;
     const category = selectedCategory ? selectedCategory.value : null;
     const newTasks = {title, description, category};
+
+    fetch('http://localhost:5000/tasks', {
+      method: "POST",
+      headers: {
+          'content-type': 'application/json'
+      },
+      body: JSON.stringify({...newTasks, email: user.email})
+  })
+      .then(res => {
+          return res.json()})
+      .then(data => {
+          if (data.insertedId) {
+             toast.success("Successfully Added")
+              navigate("/");
+          }
+      })
+      .catch(err=>{
+         toast.error("Failed To Add")
+      })
   };
 
 

@@ -2,15 +2,18 @@ import React, { useContext } from 'react';
 import { FaGoogle } from "react-icons/fa";
 import { AuthContext } from '../AuthProvider';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const SignInWithGoogle = () => {
     const {logInWithGoogle, setUser} = useContext(AuthContext);
+    const navigate = useNavigate()
 
     const handleGoogleLogin = () => {
         logInWithGoogle()
             .then(res => {
                 const user = res.user;
                 const userInfoInDB = {
+                    userID: res.user.uid,
                     email: res.user?.email,
                     name: res.user?.displayName,
                 }
@@ -26,14 +29,15 @@ const SignInWithGoogle = () => {
             .then(data  => {
                 if(data.insertedId){
                     toast.success('user created in db')
+                    navigate("/addTask")
                 }
             })
     })
 }
     return (
-        <div className='card my-16 h-[500px] justify-center items-center shadow-lg mx-auto w-1/2'>
+        <div className=''>
             <button
-            className='btn flex gap-2 px-10 py-7'
+            className='btn flex gap-2 px-5 py-5'
             onClick={handleGoogleLogin}
             ><FaGoogle size={20}></FaGoogle> Sign In With Google</button>
         </div>
