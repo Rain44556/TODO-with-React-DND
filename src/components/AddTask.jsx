@@ -19,8 +19,10 @@ const AddTask = () => {
     const title = addTaskForm.title.value;
     const description = addTaskForm.description.value;
     const category = selectedCategory ? selectedCategory.value : null;
-    console.log(title, description, category);
+    const newTasks = {title, description, category};
   };
+
+
   return (
     <div className="my-14">
 
