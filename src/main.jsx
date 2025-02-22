@@ -10,6 +10,8 @@ import SignInWithGoogle from './provider/authentication/SignInWithGoogle.jsx'
 import AddTask from './components/AddTask.jsx'
 import PrivateRoute from './privateRoute/PrivateRoute.jsx'
 import CategoryLists from './components/CategoryLists.jsx'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 const router = createBrowserRouter([
 {
@@ -39,7 +41,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
  <AuthProvider>
+ <DndProvider backend={HTML5Backend}>
  <RouterProvider router={router}></RouterProvider>
+ </DndProvider>
  <ToastContainer />
  </AuthProvider>
   </StrictMode>,

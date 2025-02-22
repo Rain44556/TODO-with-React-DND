@@ -44,7 +44,7 @@ const AddTask = () => {
       body: JSON.stringify(
         {...newTasks,
           timestamp: new Date().toLocaleString(),
-          category: "TO-DO", 
+          category: "To-Do", 
           email: user.email})
   })
       .then(res => {
