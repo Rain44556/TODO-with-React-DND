@@ -9,6 +9,7 @@ import AuthProvider from './provider/AuthProvider.jsx'
 import SignInWithGoogle from './provider/authentication/SignInWithGoogle.jsx'
 import AddTask from './components/AddTask.jsx'
 import PrivateRoute from './privateRoute/PrivateRoute.jsx'
+import CategoryLists from './components/CategoryLists.jsx'
 
 const router = createBrowserRouter([
 {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
     {
       path: "/addTask",
       element: <PrivateRoute><AddTask></AddTask></PrivateRoute>
+    },
+    {
+      path: "/categoryLists",
+      element: <PrivateRoute><CategoryLists></CategoryLists></PrivateRoute>,
     }
   ]
 }

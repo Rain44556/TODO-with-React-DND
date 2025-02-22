@@ -7,16 +7,16 @@ import { useNavigate } from "react-router-dom";
 
 
 const AddTask = () => {
-  const [task, setTask] = useState([]);
+  // const [task, setTask] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const {user} = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const categories = [
-    { value: "TO-DO", label: "TO-DO" },
-    { value: "In Progress", label: "In Progress" },
-    { value: "Done", label: "Done" },
-  ];
+  // const categories = [
+  //   { value: "TO-DO", label: "TO-DO" },
+  //   { value: "In Progress", label: "In Progress" },
+  //   { value: "Done", label: "Done" },
+  // ];
 
   const handleAddTask = (e) => {
     e.preventDefault();
@@ -24,22 +24,35 @@ const AddTask = () => {
     const addTaskForm = e.target;
     const title = addTaskForm.title.value;
     const description = addTaskForm.description.value;
-    const category = selectedCategory ? selectedCategory.value : null;
-    const newTasks = {title, description, category};
+    // const category = selectedCategory ? selectedCategory.value : null;
+
+    // show warning
+    if(title.length > 50){
+      return toast.warning("Not more than 50 characters")
+    }
+    if(description.length > 100){
+      return toast.warning("Not more than 100 characters")
+    }
+
+    const newTasks = {title, description};
 
     fetch('http://localhost:5000/tasks', {
       method: "POST",
       headers: {
           'content-type': 'application/json'
       },
-      body: JSON.stringify({...newTasks, email: user.email})
+      body: JSON.stringify(
+        {...newTasks,
+          timestamp: new Date().toLocaleString(),
+          category: "TO-DO", 
+          email: user.email})
   })
       .then(res => {
           return res.json()})
       .then(data => {
           if (data.insertedId) {
              toast.success("Successfully Added")
-              navigate("/");
+              navigate("/categoryLists");
           }
       })
       .catch(err=>{
@@ -72,13 +85,13 @@ const AddTask = () => {
                 placeholder="Description"
                 maxLength="200"/>
 
-              <Select
+              {/* <Select
                 options={categories}
                 name="category"
                 className="w-full mt-1 border border-gray-300 p-2 rounded-lg"
                 classNamePrefix="select"
                 onChange={setSelectedCategory}
-              ></Select>
+              ></Select> */}
 
               <button className="btn btn-neutral mt-4">Add</button>
             </fieldset>
@@ -87,7 +100,7 @@ const AddTask = () => {
       </div>
 
       {/* show the list of category */}
-      <CategoryLists task={task} setTask={setTask}></CategoryLists>
+      <CategoryLists></CategoryLists>
     </div>
   );
 };
